@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const ollama = new Ollama({ host: "http://host.docker.internal:11434" });  // ✅ Connect to Ollama on host machine
+const ollama = new Ollama({ host: "http://host.docker.internal:11434" });  //Connect to Ollama on host machine
 
 app.post('/chat', async (req, res) => {
     try {

@@ -17,7 +17,8 @@ const App = () => {
 
         try {
             const response = await axios.post('http://localhost:5000/chat', { message: input });
-            setMessages([...newMessages, { role: 'bot', content: response.data.reply }]);
+            const formattedReply = formatBotResponse(response.data.reply);
+            setMessages([...newMessages, { role: 'bot', content: formattedReply }]);
         } catch (error) {
             console.error("Error fetching response:", error);
             setMessages([...newMessages, { role: 'bot', content: "Oops! Something went wrong." }]);
@@ -30,6 +31,14 @@ const App = () => {
         if (e.key === 'Enter') {
             sendMessage();
         }
+    };
+
+    // Function to format bot responses into step-by-step structure
+    const formatBotResponse = (response) => {
+        return response
+            .replace(/\*\*(.*?)\*\*/g, '\n➡️ **$1**') // Formats sections with "➡️"
+            .replace(/\d+\.\s/g, '\n🔹 ') // Adds bullet points for lists
+            .trim();
     };
 
     return (
